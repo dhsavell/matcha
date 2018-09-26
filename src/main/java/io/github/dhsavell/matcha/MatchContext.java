@@ -120,7 +120,7 @@ public final class MatchContext<I, O> {
      *     Where [ I => T ] is covered by ObjectMatchers::instance
      * </pre>
      *
-     * @param patternWithTransformer s
+     * @param patternWithTransformer Pattern and transformer to build an IntermediateValueMatcher from.
      * @param result                 Function for producing a result value.
      * @param <T>                    Intermediate type yielded by the transformer.
      * @return A new MatchContext with this matcher applied.
