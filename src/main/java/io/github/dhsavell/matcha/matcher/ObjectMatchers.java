@@ -55,7 +55,7 @@ public final class ObjectMatchers {
     }
 
     /**
-     * Determines whether or not two objects are not equal.
+     * Determines whether or not two objects are not equal. Null values are accepted.
      *
      * @param other Object to check equality of.
      * @param <I>   Input type.
