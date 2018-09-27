@@ -42,4 +42,26 @@ public final class ObjectMatchers {
     public static <I, T> TransformerPredicate<I, T> instance(Class<T> expectedType) {
         return new TransformerPredicate<>(expectedType::isInstance, expectedType::cast);
     }
+
+    /**
+     * Determines whether or not two objects are equal.
+     *
+     * @param other Object to check equality of.
+     * @param <I>   Input type.
+     * @return Predicate wrapping Objects::equals.
+     */
+    public static <I> Predicate<I> equalTo(I other) {
+        return i -> Objects.equals(i, other);
+    }
+
+    /**
+     * Determines whether or not two objects are not equal.
+     *
+     * @param other Object to check equality of.
+     * @param <I>   Input type.
+     * @return Predicate wrapping Objects::equals.
+     */
+    public static <I> Predicate<I> notEqualTo(I other) {
+        return i -> !Objects.equals(i, other);
+    }
 }
