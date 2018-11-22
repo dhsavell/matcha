@@ -45,7 +45,7 @@ public class MatchExpressionTest {
     }
 
     @Test
-    public void matchResultFromSupplier() {
+    public void matchResultCanBeObtainedFromSupplier() {
         String result =
                 when(1).matchedTo(String.class)
                     .matches(i -> i + 1 == 2).then(() -> "The number is 1")
@@ -55,7 +55,7 @@ public class MatchExpressionTest {
     }
 
     @Test
-    public void matchResultFromFunction() {
+    public void matchResultCanBeObtainedFromFunction() {
         String result =
                 when(1).matchedTo(String.class)
                     .matches(i -> i + 1 == 2).then(i -> i + " plus 1 is 2")

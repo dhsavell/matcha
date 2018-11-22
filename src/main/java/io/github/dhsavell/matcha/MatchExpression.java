@@ -19,6 +19,11 @@ public final class MatchExpression<I, O> {
     private final I matchValue;
     private final PVector<Match<I, O>> matchers;
 
+    private MatchExpression(I matchValue, PVector<Match<I, O>> matchers) {
+        this.matchValue = matchValue;
+        this.matchers = matchers;
+    }
+
     /**
      * Begins the matching process by instantiating a new MatchExpression with the given input and output types.
      *
@@ -30,37 +35,56 @@ public final class MatchExpression<I, O> {
         return new MatchExpression.Initial<>(matchValue);
     }
 
-    static <A, B> MatchExpression<A, B> empty(A matchValue) {
+    private static <A, B> MatchExpression<A, B> empty(A matchValue) {
         return new MatchExpression<>(matchValue, TreePVector.empty());
-    }
-
-    private MatchExpression(I matchValue, PVector<Match<I, O>> matchers) {
-        this.matchValue = matchValue;
-        this.matchers = matchers;
     }
 
     MatchExpression<I, O> withDefinedMatch(Match<I, O> newMatcher) {
         return new MatchExpression<>(matchValue, matchers.plus(newMatcher));
     }
 
+    /**
+     * Defines a match based on the given predicate.
+     *
+     * @param predicate Predicate used to check whether or not a given value is a match.
+     * @return A MatchBuilder, used to complete defining the current match.
+     */
     public MatchBuilder<I, O> matches(Predicate<I> predicate) {
-        return new MatchBuilder<>(this, predicate);
+        return MatchBuilder.newInstance(this, predicate);
     }
 
+    /**
+     * Defines a match based on equality with a given object.
+     *
+     * @param value Value compared with to check if a given input is a match.
+     * @return A MatchBuilder, used to complete defining the current match.
+     */
     public MatchBuilder<I, O> matches(I value) {
         return matches(value::equals);
     }
 
+    /**
+     * Specifies a fallback value if no other matches are met.
+     *
+     * @param fallbackValue Fallback value to return if no other match succeeds.
+     * @return The value matched or the given fallback value (if no other matches succeed).
+     */
     public O otherwise(O fallbackValue) {
         return getMatch().orElse(fallbackValue);
     }
 
+    /**
+     * Specifies a fallback supplier to return from if no other matches are met.
+     *
+     * @param fallbackSupplier Fallback supplier to return from if no other match succeeds.
+     * @return The value matched or a value from the  given fallback supplier (if no other matches succeed).
+     */
     public O otherwise(Supplier<O> fallbackSupplier) {
         return getMatch().orElseGet(fallbackSupplier);
     }
 
     /**
-     * @return Optional value resulting from this MatchExpression.
+     * @return An Optional value containing the result of this MatchExpression.
      */
     public Optional<O> getMatch() {
         return matchers.stream()
@@ -69,6 +93,12 @@ public final class MatchExpression<I, O> {
                 .map(matcher -> matcher.getResultFor(matchValue));
     }
 
+    /**
+     * MatchExpression.Initial is a class used to define the resulting type of a match expression before beginning
+     * pattern matching.
+     *
+     * @param <I> Type to match against.
+     */
     public static final class Initial<I> {
         private final I matchValue;
 
@@ -76,6 +106,13 @@ public final class MatchExpression<I, O> {
             this.matchValue = matchValue;
         }
 
+        /**
+         * Specifies the type that will result from the following MatchExpression.
+         *
+         * @param resultingType Class representing the type resulting from the following MatchExpression.
+         * @param <O> Resulting type.
+         * @return A MatchExpression with a set output type.
+         */
         public <O> MatchExpression<I, O> matchedTo(Class<? extends O> resultingType) {
             return MatchExpression.empty(matchValue);
         }
