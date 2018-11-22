@@ -130,7 +130,35 @@ public final class MatchContext<I, O> {
     }
 
     /**
-     * @return Optional resulting from this MatchContext.
+     * Returns the value resulting from this MatchContext or a given value if no match is found.
+     * @param result Fallback value to return if no other conditions are met.
+     * @return Value resulting from this MatchContext.
+     */
+    public O otherwise(O result) {
+        return getMatch().orElse(result);
+    }
+
+    /**
+     * Returns the value resulting from this MatchContext or the result of a given supplier if no match is found.
+     * @param result Fallback supplier to return from if no other conditions are met.
+     * @return Value resulting from this MatchContext.
+     */
+    public O otherwise(Supplier<O> result) {
+        return getMatch().orElseGet(result);
+    }
+
+    /**
+     * Returns the value resulting from this MatchContext or throws an exception if no match is found.
+     * @param exceptionSupplier Exception supplier to throw from if no other conditions are met.
+     * @return Value resulting from this MatchContext.
+     * @throws X In the event no match was found.
+     */
+    public <X extends Throwable> O otherwiseThrow(Supplier<? extends X> exceptionSupplier) throws X {
+        return getMatch().orElseThrow(exceptionSupplier);
+    }
+
+    /**
+     * @return Optional value resulting from this MatchContext.
      */
     public Optional<O> getMatch() {
         return matchers.stream()

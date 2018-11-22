@@ -40,7 +40,7 @@ public final class ObjectMatchers {
      * being a cast to that type.
      */
     public static <I, T> TransformerPredicate<I, T> instance(Class<T> expectedType) {
-        return new TransformerPredicate<>(expectedType::isInstance, expectedType::cast);
+        return TransformerPredicate.from(expectedType::isInstance, expectedType::cast);
     }
 
     /**

@@ -20,7 +20,7 @@ public class IntermediateValueMatcher<I, T, O> implements Matcher<I, O> {
         return new IntermediateValueMatcher<>(transformerPredicate.getPredicate(), transformerPredicate.getTransformer(), result);
     }
 
-    public IntermediateValueMatcher(Predicate<I> matcher, Function<I, T> transformer, Function<T, O> result) {
+    private IntermediateValueMatcher(Predicate<I> matcher, Function<I, T> transformer, Function<T, O> result) {
         this.matcher = matcher;
         this.transformer = transformer;
         this.result = result;

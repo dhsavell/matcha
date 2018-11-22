@@ -15,7 +15,11 @@ public class TransformerPredicate<I, T> {
     private final Predicate<I> predicate;
     private final Function<I, T> transformer;
 
-    public TransformerPredicate(Predicate<I> predicate, Function<I, T> transformer) {
+    public static <A, B> TransformerPredicate<A, B> from(Predicate<A> predicate, Function<A, B> transformer) {
+        return new TransformerPredicate<>(predicate, transformer);
+    }
+
+    private TransformerPredicate(Predicate<I> predicate, Function<I, T> transformer) {
         this.predicate = predicate;
         this.transformer = transformer;
     }

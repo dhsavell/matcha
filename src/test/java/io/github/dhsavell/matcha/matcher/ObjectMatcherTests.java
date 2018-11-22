@@ -104,19 +104,19 @@ public class ObjectMatcherTests {
     }
 
     private static class Car implements Vehicle {
-        public String getRoad() {
+        String getRoad() {
             return "Route 66";
         }
     }
 
     private static class Airplane implements Vehicle {
-        public double getAltitude() {
+        double getAltitude() {
             return 10000;
         }
     }
 
     private static class Spaceship implements Vehicle {
-        public String getPlanet() {
+        String getPlanet() {
             return "Mars";
         }
     }
