@@ -1,7 +1,6 @@
 package io.github.dhsavell.matcha;
 
 import org.junit.Test;
-import org.junit.jupiter.api.DisplayName;
 
 import static com.google.common.truth.Truth.assertThat;
 import static io.github.dhsavell.matcha.MatchExpression.when;
@@ -9,25 +8,21 @@ import static io.github.dhsavell.matcha.MatchExpression.when;
 public class MatchExpressionTest {
 
     @Test
-    @DisplayName("When given an unmatched value, an empty Optional can be returned")
     public void getMatchReturnsEmptyWhenUnmatched() {
         assertThat(when(0).matchedTo(Object.class).getMatch().isPresent()).isFalse();
     }
 
     @Test
-    @DisplayName("When given an unmatched value, a fallback value can be returned")
     public void otherwiseReturnsFallbackValue() {
         assertThat(when(0).matchedTo(String.class).otherwise("Fallback")).isEqualTo("Fallback");
     }
 
     @Test
-    @DisplayName("When given an unmatched value, a fallback value from a supplier can be returned")
     public void otherwiseReturnsFallbackValueFromSupplier() {
         assertThat(when(0).matchedTo(String.class).otherwise(() -> "Fallback")).isEqualTo("Fallback");
     }
 
     @Test
-    @DisplayName("Between 2 simple matches, the corresponding match should be applied")
     public void correspondingSimpleMatcherIsApplied() {
         String result =
                 when(0).matchedTo(String.class)
@@ -39,7 +34,6 @@ public class MatchExpressionTest {
     }
 
     @Test
-    @DisplayName("Between 2 customized matches, the corresponding match should be applied")
     public void correspondingComplexMatcherIsApplied() {
         String result =
                 when(1024).matchedTo(String.class)
@@ -51,7 +45,6 @@ public class MatchExpressionTest {
     }
 
     @Test
-    @DisplayName("Match results can be obtained from suppliers")
     public void matchResultFromSupplier() {
         String result =
                 when(1).matchedTo(String.class)
@@ -62,7 +55,6 @@ public class MatchExpressionTest {
     }
 
     @Test
-    @DisplayName("Match results can be derived from functions")
     public void matchResultFromFunction() {
         String result =
                 when(1).matchedTo(String.class)
