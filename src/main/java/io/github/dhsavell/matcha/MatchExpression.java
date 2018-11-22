@@ -1,9 +1,9 @@
 package io.github.dhsavell.matcha;
 
-import org.pcollections.PVector;
-import org.pcollections.TreePVector;
-
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
+import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
 
@@ -17,9 +17,9 @@ import java.util.function.Supplier;
  */
 public final class MatchExpression<I, O> {
     private final I matchValue;
-    private final PVector<Match<I, O>> matchers;
+    private final List<Match<I, O>> matchers;
 
-    private MatchExpression(I matchValue, PVector<Match<I, O>> matchers) {
+    private MatchExpression(I matchValue, List<Match<I, O>> matchers) {
         this.matchValue = matchValue;
         this.matchers = matchers;
     }
@@ -36,11 +36,13 @@ public final class MatchExpression<I, O> {
     }
 
     private static <A, B> MatchExpression<A, B> empty(A matchValue) {
-        return new MatchExpression<>(matchValue, TreePVector.empty());
+        return new MatchExpression<>(matchValue, new ArrayList<>());
     }
 
     MatchExpression<I, O> withDefinedMatch(Match<I, O> newMatcher) {
-        return new MatchExpression<>(matchValue, matchers.plus(newMatcher));
+        ArrayList<Match<I, O>> updatedMatchList = new ArrayList<>(matchers);
+        updatedMatchList.add(newMatcher);
+        return new MatchExpression<>(matchValue, updatedMatchList);
     }
 
     /**
@@ -63,6 +65,10 @@ public final class MatchExpression<I, O> {
         return matches(value::equals);
     }
 
+    public <A> MatchBuilder<I, O> is(Class<? extends A> typeToMatch) {
+        return matches(typeToMatch::isInstance);
+    }
+
     /**
      * Specifies a fallback value if no other matches are met.
      *
@@ -81,6 +87,16 @@ public final class MatchExpression<I, O> {
      */
     public O otherwise(Supplier<O> fallbackSupplier) {
         return getMatch().orElseGet(fallbackSupplier);
+    }
+
+    /**
+     * Specifies a fallback function to derive a value from if no other matches are met.
+     *
+     * @param fallbackProvider Fallback function to return from if no other match succeeds.
+     * @return The value matched or a value from the  given fallback supplier (if no other matches succeed).
+     */
+    public O otherwise(Function<I, O> fallbackProvider) {
+        return getMatch().orElse(fallbackProvider.apply(matchValue));
     }
 
     /**
