@@ -1,12 +1,17 @@
+<p align="center">
+<img height="75px" alt="Matcha" src="./assets/matcha.png">
+</p>
+
 # matcha
 
 [![Build Status](https://travis-ci.com/dhsavell/matcha.svg?branch=master)](https://travis-ci.com/dhsavell/matcha)
 [![Coverage Status](https://coveralls.io/repos/github/dhsavell/matcha/badge.svg?branch=master)](https://coveralls.io/github/dhsavell/matcha?branch=master)
+[![Maintainability](https://api.codeclimate.com/v1/badges/21f08368aa0fcb290cef/maintainability)](https://codeclimate.com/github/dhsavell/matcha/maintainability)
 
 > Fluent pattern matching for Java.
 
-Matcha is an experimental/toy library providing a pattern-matching-like
-system for Java. It focuses on fluency and extensibility in order to be both
+Matcha is an library providing a pattern-matching system for Java. It focuses
+on fluency and extensibility in order to be both
 descriptive and powerful at the same time.
 
 ### Why?
