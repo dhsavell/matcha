@@ -10,15 +10,8 @@
 
 > Fluent pattern matching for Java.
 
-Matcha is an library providing a pattern-matching system for Java. It focuses
-on fluency and extensibility in order to be both
-descriptive and powerful at the same time.
-
-### Why?
-
-Matcha was made purely for fun to experiment with creating a fluent API in
-Java. Pattern matching was chosen as the focus of this project because it's an
-interesting but very useful concept.
+Matcha is an library providing a pattern-matching system for Java. It primarily
+focuses on being fluent, concise, and extendable.
 
 ### Examples
 
